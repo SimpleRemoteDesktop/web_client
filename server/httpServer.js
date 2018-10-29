@@ -60,11 +60,13 @@ wsServer.on('request', function (request) {
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
-            console.log('Received Message: ' + message);
-
+            console.log(message);
+            message = JSON.parse(message.utf8Data);
             tcpClient.onFrame(function (frame) {
                 connection.sendBytes(frame);
             });
+
+            console.log(message);
 
             switch (message.type) {
                 case "start":

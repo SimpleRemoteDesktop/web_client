@@ -8,7 +8,7 @@ function startWebsocket(frameHandlerCallback) {
     socket.onopen = function (event) {
         console.log("websocket open");
         console.log(event);
-        socket.send({type: "start"});
+        socket.send(JSON.stringify({type: "start"}));
     };
 
     socket.onmessage = function (event) {

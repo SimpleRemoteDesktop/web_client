@@ -47,3 +47,4 @@ class Message {
 
 module.exports.Frame = Frame;
 module.exports.Message = Message;
+module.exports.Type = Type;

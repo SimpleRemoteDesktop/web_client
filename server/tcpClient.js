@@ -1,5 +1,3 @@
-
-
 const {Frame, Message, Type} = require('./SRD_protocol');
 const net = require('net');
 let isConnected = false;
@@ -8,16 +6,24 @@ let currentType = 0;
 let currentSize = 0;
 let onFrameCallback = null;
 
+let socket = null;
+
 function onFrame(cb) {
     onFrameCallback = cb;
 }
+
+function sendMouseMove(message) {
+    const m = new Message(Type.TYPE_MOUSE_MOTION, message.x, message.y, 0, 0, 0, 0, 0, 0, 0, 0);
+    socket.write(m.getBuffer());
+}
+
 function sendMouseButton(message) {
     const isDown = message.isDown ? Type.TYPE_MOUSE_DOWN : Type.TYPE_MOUSE_UP;
     const m = new Message(isDown, 0, 0, message.button, 0, 0, 0, 0, 0, 0, 0);
     socket.write(m.getBuffer());
 }
 function connect(hostname, port) {
-    const socket = net.createConnection(port, hostname);
+    socket = net.createConnection(port, hostname);
 
     socket.on('connect', () => {
         isConnected = true;
@@ -124,7 +130,6 @@ function handleNewFrame() {
                 currentType = 0;
 
                 //console.log(frame);
-                console.log(receivedBuffer.length);
                 if (frame.type === 1)
                     if (false) {
                         extractSPSPPS(frame.data);
@@ -144,3 +149,4 @@ function handleNewFrame() {
 module.exports.connect = connect;
 module.exports.onFrame = onFrame;
 module.exports.sendMouseButton = sendMouseButton;
+module.exports.sendMouseMove = sendMouseMove;

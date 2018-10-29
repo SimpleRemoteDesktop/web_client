@@ -29,7 +29,7 @@ function addInputEventHandler(element) {
         const isDown = event.type === "mousedown";
 
         console.log(button, isDown);
-        socket.send({type: "button", button: button, isDown: isDown});
+        socket.send(JSON.stringify({type: "button", button: button, isDown: isDown}));
 
     }
 
@@ -40,7 +40,7 @@ function addInputEventHandler(element) {
         var fx = x / element.offsetWidth;
         var fy = y / element.offsetHeight;
 
-        socket.send({type: "move", x: fx, y: fy});
+        socket.send(JSON.stringify({type: "move", x: fx, y: fy}));
     }
 }
 

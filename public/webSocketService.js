@@ -1,7 +1,9 @@
 var socket = null;
 
 function startWebsocket(frameHandlerCallback) {
-    socket = new WebSocket('ws://127.0.0.1:8080/', "srd_protocol");
+    const url = 'ws://' + window.location.host + '/';
+    console.log('connecting websocket to url' + url);
+    socket = new WebSocket(url, "srd_protocol");
 
     socket.binaryType = 'arraybuffer'; // from jmuxer
 

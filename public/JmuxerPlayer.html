@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="JmuxerPlayer.css">
 </head>
-<body>
+<body onload="load()">
+<div id="desktopArea">
+    <video width="640" height="360" autoplay controls="false" id="player"></video>
+</div>
 
-<video width="640" height="480" controls autoplay id="player"></video>
-
-<script src="Broadway/YUVCanvas.js"></script>
-<script src="Broadway/Decoder.js"></script>
-<script src="Broadway/Player.js"></script>
 <script src="jmuxer/jmuxer.min.js"></script>
-<script src="index.js"></script>
+<script src="EventHandler.js"></script>
+<script src="webSocketService.js"></script>
+<script src="JmuxerPlayer.js"></script>
 
 </body>
 </html>

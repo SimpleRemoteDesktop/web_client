@@ -1,3 +1,7 @@
+function close() {
+   socket.destroy();
+}
+
 const {Frame, Message, Type} = require('./SRD_protocol');
 const net = require('net');
 let isConnected = false;
@@ -27,7 +31,7 @@ function connect(hostname, port) {
 
     socket.on('connect', () => {
         isConnected = true;
-        const message = new Message(6, 0, 0, 0, 0, 0, 1280, 720, 5000000, 30);
+        const message = new Message(6, 0, 0, 0, 0, 0, 1280, 720, 1000000, 30, 0);
         socket.write(message.getBuffer());
 
     });
@@ -134,6 +138,7 @@ function handleNewFrame() {
                     if (false) {
                         extractSPSPPS(frame.data);
                     } else {
+                    //require('fs').appendFileSync('./stream.h264', frame.data);
                         onFrameCallback(frame.data);
                     }
             } else {
@@ -150,3 +155,4 @@ module.exports.connect = connect;
 module.exports.onFrame = onFrame;
 module.exports.sendMouseButton = sendMouseButton;
 module.exports.sendMouseMove = sendMouseMove;
+module.exports.close = close

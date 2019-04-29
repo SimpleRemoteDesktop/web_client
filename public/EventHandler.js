@@ -10,25 +10,40 @@ const SRD_MOUSE_BUTTON = {
     RIGHT: 2
 };
 
-
 function addInputEventHandler(element) {
     element.addEventListener('contextmenu', function (event) {
         event.preventDefault();
         return false;
     });
 
-    element.addEventListener("mouseup", onMouseButton);
-    element.addEventListener("mousedown", onMouseButton);
-    element.addEventListener('mousemove', onMouseMove);
+    element.addEventListener("mouseup", onMouseButton, false);
+    element.addEventListener("mousedown", onMouseButton, false);
+    element.addEventListener('mousemove', onMouseMove, false);
+    document.addEventListener('keydown', onKeyDown, false);
+    document.addEventListener('keyup', onKeyUp, false);
 
+
+    function onKeyDown(event) {
+        if (event.repeat) return;
+        onKeyPress(event);
+    }
+
+    function onKeyUp(event) {
+        if (event.repeat) return;
+        onKeyPress(event);
+    }
+
+    function onKeyPress(event) {
+        console.log(event);
+    }
 
     function onMouseButton(event) {
-        console.log(event);
+        //console.log(event);
         const button = event.buttons ^ Button.prevState;
         Button.prevState = event.buttons;
         const isDown = event.type === "mousedown";
 
-        console.log(button, isDown);
+        //console.log(button, isDown);
         socket.send(JSON.stringify({type: "button", button: button, isDown: isDown}));
 
     }
@@ -43,5 +58,4 @@ function addInputEventHandler(element) {
         socket.send(JSON.stringify({type: "move", x: fx, y: fy}));
     }
 }
-
 

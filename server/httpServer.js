@@ -66,7 +66,7 @@ wsServer.on('request', function (request) {
             console.log(message);
             message = JSON.parse(message.utf8Data);
             tcpClient.onFrame(function (frame) {
-                connection.sendBytes(frame);
+                connection.send(frame);
             });
 
             console.log(message);
@@ -93,5 +93,6 @@ wsServer.on('request', function (request) {
     });
     connection.on('close', function (reasonCode, description) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+        tcpClient.close();
     });
 });

@@ -2,6 +2,7 @@ const WebSocketServer = require('websocket').server;
 const tcpClient = require('./tcpClient');
 const http = require('http');
 const fs = require('fs');
+const webrtc = require('node-pion-webrtc');
 
 var server = http.createServer(function (request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
@@ -66,7 +67,9 @@ wsServer.on('request', function (request) {
             console.log(message);
             message = JSON.parse(message.utf8Data);
             tcpClient.onFrame(function (frame) {
-                connection.send(frame);
+                //TODO disable websocket connection to test webrtc link
+                //connection.send(frame);
+                webrtc.writeFrame(frame);
             });
 
             console.log(message);
@@ -81,6 +84,10 @@ wsServer.on('request', function (request) {
                     break;
                 case "move":
                     tcpClient.sendMouseMove(message);
+                    break;
+                case "offer":
+                    const localOffer = webrtc.init(message.offer);
+                    connection.send({type: 'offer', offer: localOffer});
                     break;
             }
 

@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/SimpleRemoteDesktop/web_client#readme",
   "dependencies": {
+    "node-pion-webrtc": "github:sylvain121/node-webrtc-endpoint",
     "websocket": "^1.0.28"
   }
 }

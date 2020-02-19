@@ -76,8 +76,9 @@ wsServer.on('request', function (request) {
 
             switch (message.type) {
                 case "start":
+		    console.log("sending start command");
                     console.log("connecting to server");
-                    tcpClient.connect("127.0.0.1", 8001);
+                    tcpClient.connect("192.168.2.254", 8001);
                     break;
                 case "button":
                     tcpClient.sendMouseButton(message);
@@ -86,8 +87,9 @@ wsServer.on('request', function (request) {
                     tcpClient.sendMouseMove(message);
                     break;
                 case "offer":
+                    console.log("getting browser offer");
                     const localOffer = webrtc.init(message.offer);
-                    connection.send({type: 'offer', offer: localOffer});
+                    connection.send(JSON.stringify({type: 'offer', offer: localOffer}));
                     break;
             }
 

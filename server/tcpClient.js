@@ -27,12 +27,13 @@ function sendMouseButton(message) {
     socket.write(m.getBuffer());
 }
 function connect(hostname, port) {
-    socket = net.createConnection(port, hostname);
+    socket = net.createConnection(8001, "127.0.0.1");
 
     socket.on('connect', () => {
         isConnected = true;
-        const message = new Message(6, 0, 0, 0, 0, 0, 1280, 720, 1000000, 30, 0);
-        socket.write(message.getBuffer());
+        const message = new Message(6, 0, 0, 0, 0, 0, 1920, 1200, 1000000, 30, 0);
+	    //const message = new Message(6, 0, 0, 0, 0, 0, 320, 240, 1000000, 30, 0);
+      socket.write(message.getBuffer());
 
     });
 
@@ -94,6 +95,7 @@ function extractSPSPPS(frame) {
     var dataOffset = 0;
     var ppsOffset = 0;
 
+    console.log(frame);
     for (var i = 4; i < frame.length; i++) {
         const NAL_START = frame.readUInt8(i) << 16 | frame.readUInt8(i + 1) << 8 | frame.readUInt8(i + 2);
         if (NAL_START == 0x01 && frame.readUInt8(i + 3) == 0x68) {
@@ -109,9 +111,9 @@ function extractSPSPPS(frame) {
     const pps = frame.slice(ppsOffset, dataOffset);
     const data = frame.slice(dataOffset, frame.length);
 
-    //console.log(sps);
-    //console.log(pps);
-    //console.log(data);
+    console.log(sps);
+    console.log(pps);
+    console.log(data);
     onFrameCallback(sps);
     onFrameCallback(pps);
     onFrameCallback(data);

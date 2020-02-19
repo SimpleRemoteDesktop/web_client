@@ -6,7 +6,7 @@ function load() {
         node: 'player',
         mode: 'video',
         flushingTime: 1000,
-        fps: 1,
+        fps: 30,
         debug: true
     });
     var ws = new WebSocket(socketURL, "srd_protocol");

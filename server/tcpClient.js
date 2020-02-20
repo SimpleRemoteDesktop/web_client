@@ -31,7 +31,7 @@ function connect(hostname, port) {
 
     socket.on('connect', () => {
         isConnected = true;
-        const message = new Message(6, 0, 0, 0, 0, 0, 1920, 1200, 1000000, 30, 0);
+        const message = new Message(6, 0, 0, 0, 0, 0, 1280, 720, 1000000, 30, 0);
 	    //const message = new Message(6, 0, 0, 0, 0, 0, 320, 240, 1000000, 30, 0);
       socket.write(message.getBuffer());
 
